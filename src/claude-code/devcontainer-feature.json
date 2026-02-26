@@ -1,7 +1,7 @@
 {
     "name": "Claude Code CLI",
     "id": "claude-code",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Installs the Claude Code CLI using the native installer (no Node.js required)",
     "options": {
         "version": {
