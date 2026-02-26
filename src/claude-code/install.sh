@@ -26,6 +26,12 @@ REMOTE_USER_HOME="${_REMOTE_USER_HOME:-/root}"
 
 echo "Installing Claude Code ${VERSION} for user ${REMOTE_USER}..."
 
+# Ensure the directories the native installer needs exist and are owned by the target user
+mkdir -p "${REMOTE_USER_HOME}/.local/bin" "${REMOTE_USER_HOME}/.local/share"
+if [ "${REMOTE_USER}" != "root" ]; then
+    chown -R "${REMOTE_USER}" "${REMOTE_USER_HOME}/.local"
+fi
+
 if [ "${REMOTE_USER}" = "root" ]; then
     curl -fsSL https://claude.ai/install.sh | bash -s -- "${VERSION}"
 else
