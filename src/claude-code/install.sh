@@ -22,14 +22,14 @@ fi
 
 # Install Claude Code as the remote user (the native installer targets ~/.local/bin/)
 REMOTE_USER="${_REMOTE_USER:-root}"
-REMOTE_USER_HOME="${_REMOTE_USER_HOME:-/root}"
+REMOTE_USER_HOME="${_REMOTE_USER_HOME:-$(eval echo "~${REMOTE_USER}")}"
 
-echo "Installing Claude Code ${VERSION} for user ${REMOTE_USER}..."
+echo "Installing Claude Code ${VERSION} for user ${REMOTE_USER} (home: ${REMOTE_USER_HOME})..."
 
 # Ensure the directories the native installer needs exist and are owned by the target user
-mkdir -p "${REMOTE_USER_HOME}/.local/bin" "${REMOTE_USER_HOME}/.local/share"
+mkdir -p "${REMOTE_USER_HOME}/.local/bin" "${REMOTE_USER_HOME}/.local/share" "${REMOTE_USER_HOME}/.claude"
 if [ "${REMOTE_USER}" != "root" ]; then
-    chown -R "${REMOTE_USER}" "${REMOTE_USER_HOME}/.local"
+    chown -R "${REMOTE_USER}" "${REMOTE_USER_HOME}/.local" "${REMOTE_USER_HOME}/.claude"
 fi
 
 if [ "${REMOTE_USER}" = "root" ]; then
