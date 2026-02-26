@@ -27,6 +27,8 @@ jobs:
           publish-features: "true"
           base-path-to-features: "./src"
           generate-docs: "true"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create PR for documentation
         id: push_image_info
