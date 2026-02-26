@@ -1,0 +1,31 @@
+name: "Test dev container features"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        feature:
+          - claude-code
+        base-image:
+          - debian:latest
+          - ubuntu:latest
+          - mcr.microsoft.com/devcontainers/base:ubuntu
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Install devcontainer CLI"
+        run: npm install -g @devcontainers/cli
+
+      - name: "Test feature: ${{ matrix.feature }} on ${{ matrix.base-image }}"
+        run: |
+          devcontainer features test \
+            --features "${{ matrix.feature }}" \
+            --base-image "${{ matrix.base-image }}" \
+            --project-folder .
